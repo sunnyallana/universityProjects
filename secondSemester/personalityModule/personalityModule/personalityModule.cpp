@@ -30,8 +30,8 @@ public:
 		ifstream mindFile("mind.txt");
 		for (int i = 0; i < 5; i++) {
 			getline(mindFile, question);
-			cout <<  endl << question << endl;
-			cout << "Enter: ";
+			cout << endl << question << endl;
+			cout << endl << "Enter: ";
 			cin >> answer;
 
 			if (answer >= 1 && answer <= 3) {
@@ -55,7 +55,7 @@ public:
 		for (int i = 0; i < 5; i++) {
 			getline(energyFile, question);
 			cout << endl << question << endl;
-			cout << "Enter: ";
+			cout << endl << "Enter: ";
 			cin >> answer;
 
 			if (answer >= 1 && answer <= 3) {
@@ -80,7 +80,7 @@ public:
 		for (int i = 0; i < 5; i++) {
 			getline(natureFile, question);
 			cout << endl << question << endl;
-			cout << "Enter: ";
+			cout << endl << "Enter: ";
 			cin >> answer;
 
 			if (answer > 1 && answer <= 3) {
@@ -104,7 +104,7 @@ public:
 		for (int i = 0; i < 5; i++) {
 			getline(tacticsFile, question);
 			cout << endl << question << endl;
-			cout << "Enter: ";
+			cout << endl << "Enter: ";
 			cin >> answer;
 
 			if (answer >= 1 && answer <= 3) {
@@ -129,7 +129,7 @@ public:
 		for (int i = 0; i < 5; i++) {
 			getline(identityFile, question);
 			cout << endl << question << endl;
-			cout << "Enter: ";
+			cout << endl << "Enter: ";
 			cin >> answer;
 
 			if (answer >= 1 && answer <= 3) {
@@ -148,14 +148,13 @@ public:
 	}
 
 	void setPersonality() {
+		cout << "\t\t\t\t\tUnlock the Secrets of Your Personality\n\t\t\t\t-------------------------------------------------------" << endl;
 		setMind();
 		setEnergy();
 		setNature();
 		setTactics();
 		setIdentity();
 	}
-
-
 	void displayPersonality() const {
 		cout << mind << energy << nature << tactics << "-" << identity << endl;
 	}
@@ -165,17 +164,105 @@ public:
 class user {
 private:
 	string name;
-	int birthDay;
-	int birthMonth;
-	int birthYear;
+	int dayOfBirth;
+	int monthOfBirth;
+	int yearOfBirth;
 	int age;
 	string zodiacSign;
-	string email;
+	string userId;
+	string password;
 	personalityQuiz* personality;
+public:
+	user(const string receiveName, const int receiveDayOfBirth, const int receiveMonthOfBirth, const int receiveYearOfBirth, const string receiveUserId, const string receivePassword) {
+		name = receiveName;
+		dayOfBirth = receiveDayOfBirth;
+		monthOfBirth = receiveMonthOfBirth;
+		yearOfBirth = receiveYearOfBirth;
+		calculateAge(receiveDayOfBirth, receiveMonthOfBirth, receiveYearOfBirth);
+		calculateZodiacSign(receiveDayOfBirth, receiveMonthOfBirth);
+		userId = receiveUserId;
+		password = receivePassword;
+		personality = new personalityQuiz;
+	}
+	~user() {
+		delete[] personality;
+	}
+
+	void calculateAge(int, int, int);
+	void calculateZodiacSign(int, int);
+
 
 };
 
 
+
+
+void user::calculateAge(int dayOfBirth, int monthOfBirth, int yearOfBirth) {
+	int ageValue;
+	// Current time
+	time_t now = time(0);
+	// Pointer to structure "tm" consisting of date/time related information. Syntax found from C++ documentaion
+	tm ltm;
+	localtime_s(&ltm, &now);
+	// To find the year of birth that may need revision based on month and day
+	ageValue = (1900 + ltm.tm_year) - yearOfBirth;
+	// Updating the ageValue if it requires any updation
+	if ((monthOfBirth > 1 + ltm.tm_mon) || ((monthOfBirth == 1 + ltm.tm_mon) && (dayOfBirth > ltm.tm_mday))) {
+		ageValue--;
+	}
+	age = ageValue;
+}
+void user::calculateZodiacSign(int day, int month) {
+	// Self reminder to make sure that valid day and month reach here. Exception handling required.....
+	if ((day >= 20 && month == 1) || (day <= 18 && month == 2))
+	{
+		zodiacSign = "Aquarius";
+	}
+	else if ((day >= 19 && month == 2) || (day <= 20 && month == 3))
+	{
+		zodiacSign = "Pisces";
+	}
+	else if ((day >= 21 && month == 3) || (day <= 19 && month == 4))
+	{
+		zodiacSign = "Aries";
+	}
+	else if ((day >= 20 && month == 4) || (day <= 20 && month == 5))
+	{
+		zodiacSign = "Taurus";
+	}
+	else if ((day >= 21 && month == 5) || (day <= 20 && month == 6))
+	{
+		zodiacSign = "Gemini";
+	}
+	else if ((day >= 21 && month == 6) || (day <= 22 && month == 7))
+	{
+		zodiacSign = "Cancer";
+	}
+	else if ((day >= 23 && month == 7) || (day <= 22 && month == 8))
+	{
+		zodiacSign = "Leo";
+	}
+	else if ((day >= 23 && month == 8) || (day <= 22 && month == 9))
+	{
+		zodiacSign = "Virgo";
+	}
+	else if ((day >= 23 && month == 9) || (day <= 22 && month == 10))
+	{
+		zodiacSign = "Libra";
+	}
+	else if ((day >= 23 && month == 10) || (day <= 21 && month == 11))
+	{
+		zodiacSign = "Scorpio";
+	}
+	else if ((day >= 22 && month == 11) || (day <= 21 && month == 12))
+	{
+		zodiacSign = "Sagittarius";
+	}
+	else if ((day >= 22 && month == 12) || (day <= 19 && month == 1))
+	{
+		zodiacSign = "Capricorn";
+	}
+}
 
 
 
@@ -185,6 +272,7 @@ private:
 
 
 int main(void) {
+	user uOne("Sunny", 15, 9, 2003, "12", "su");
 	system("Color F0");
 	personalityQuiz pOne;
 	pOne.setPersonality();
