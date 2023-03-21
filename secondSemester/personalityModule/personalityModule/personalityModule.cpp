@@ -149,14 +149,25 @@ public:
 
 	void setPersonality() {
 		cout << "\t\t\t\t\tUnlock the Secrets of Your Personality\n\t\t\t\t-------------------------------------------------------" << endl;
-		setMind();
-		setEnergy();
-		setNature();
-		setTactics();
-		setIdentity();
+		setMind();		system("cls");
+		cout << "\t\t\t\t\tUnlock the Secrets of Your Personality\n\t\t\t\t-------------------------------------------------------" << endl;
+		setEnergy();	system("cls");
+		cout << "\t\t\t\t\tUnlock the Secrets of Your Personality\n\t\t\t\t-------------------------------------------------------" << endl;
+		setNature();	system("cls");
+		cout << "\t\t\t\t\tUnlock the Secrets of Your Personality\n\t\t\t\t-------------------------------------------------------" << endl;
+		setTactics();	system("cls");
+		cout << "\t\t\t\t\tUnlock the Secrets of Your Personality\n\t\t\t\t-------------------------------------------------------" << endl;
+		setIdentity();	system("cls");
 	}
+
 	void displayPersonality() const {
-		cout << mind << energy << nature << tactics << "-" << identity << endl;
+		if (mind == NULL || energy == NULL || nature == NULL || tactics == NULL || identity == NULL) {
+			cout << "Not Set" << endl;
+			return;
+		}
+		else {
+			cout << mind << energy << nature << tactics << "-" << identity << endl;
+		}
 	}
 };
 
@@ -186,6 +197,18 @@ public:
 	}
 	~user() {
 		delete[] personality;
+	}
+
+	void takeTest() const {
+		personality->setPersonality();
+	}
+	
+	void displayUser() const {
+		cout << "Name: " << name << endl;
+		cout << "Birth Day: " << dayOfBirth << "/" << monthOfBirth << "/" << yearOfBirth << endl;
+		cout << "Age: " << age << endl;
+		cout << "Zodiac Sign: " << zodiacSign << endl;
+		cout << "Personality Type: "; personality->displayPersonality(); cout << endl;
 	}
 
 	void calculateAge(int, int, int);
@@ -273,9 +296,12 @@ void user::calculateZodiacSign(int day, int month) {
 
 int main(void) {
 	user uOne("Sunny", 15, 9, 2003, "12", "su");
+	uOne.takeTest();
 	system("Color F0");
-	personalityQuiz pOne;
-	pOne.setPersonality();
-	pOne.displayPersonality();
+	uOne.displayUser();
+	
+	//personalityQuiz pOne;
+	//pOne.setPersonality();
+	//pOne.displayPersonality();
 	return 0;
 }
