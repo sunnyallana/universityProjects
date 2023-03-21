@@ -199,7 +199,7 @@ public:
 		delete[] personality;
 	}
 
-	void takeTest() const {
+	void takePersonalityTest() const {
 		personality->setPersonality();
 	}
 	
@@ -216,8 +216,6 @@ public:
 
 
 };
-
-
 
 
 void user::calculateAge(int dayOfBirth, int monthOfBirth, int yearOfBirth) {
@@ -295,13 +293,9 @@ void user::calculateZodiacSign(int day, int month) {
 
 
 int main(void) {
-	user uOne("Sunny", 15, 9, 2003, "12", "su");
-	uOne.takeTest();
 	system("Color F0");
+	user uOne("Sunny", 15, 9, 2003, "12", "su");
+	uOne.takePersonalityTest();
 	uOne.displayUser();
-	
-	//personalityQuiz pOne;
-	//pOne.setPersonality();
-	//pOne.displayPersonality();
 	return 0;
 }
