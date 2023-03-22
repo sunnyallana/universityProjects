@@ -179,6 +179,11 @@ private:
 	string password;
 	static int countUser;
 public:
+	admin() {
+		name = "";
+		adminId = "";
+		password = "";
+	}
 	admin(string receiveName, string receiveAdminId, string receivePassword) {
 		name = receiveName;
 		adminId = receiveAdminId;
@@ -187,7 +192,7 @@ public:
 	static int getCountUser() {
 		return countUser;
 	}
-	static int increamentCountUser() {
+	static void increamentCountUser() {
 		countUser++;
 	}
 };
@@ -204,18 +209,30 @@ private:
 	int yearOfBirth;
 	int age;
 	string zodiacSign;
-	string userId;
+	string username;
 	string password;
 	personalityQuiz* personality;
 public:
-	user(const string receiveName, const int receiveDayOfBirth, const int receiveMonthOfBirth, const int receiveYearOfBirth, const string receiveUserId, const string receivePassword) {
+	user() {
+		name = "";
+		dayOfBirth = NULL;
+		monthOfBirth = NULL;
+		yearOfBirth = NULL;
+		age = NULL;
+		zodiacSign = "";
+		username = "";
+		password = "";
+		personality = new personalityQuiz;
+		admin::increamentCountUser();
+	}
+	user(const string receiveName, const int receiveDayOfBirth, const int receiveMonthOfBirth, const int receiveYearOfBirth, const string receiveUsername, const string receivePassword) {
 		name = receiveName;
 		dayOfBirth = receiveDayOfBirth;
 		monthOfBirth = receiveMonthOfBirth;
 		yearOfBirth = receiveYearOfBirth;
 		calculateAge(receiveDayOfBirth, receiveMonthOfBirth, receiveYearOfBirth);
 		calculateZodiacSign(receiveDayOfBirth, receiveMonthOfBirth);
-		userId = receiveUserId;
+		username = receiveUsername;
 		password = receivePassword;
 		personality = new personalityQuiz;
 		admin::increamentCountUser();
@@ -223,6 +240,21 @@ public:
 	~user() {
 		delete[] personality;
 	}
+
+	void setName(const string& receiveName) { name = receiveName; }
+	void setDayOfBirth(const int& receiveDayOfBirth) { dayOfBirth = receiveDayOfBirth; }
+	void setMonthOfBirth(const int& receiveMonthOfBirth) { monthOfBirth = receiveMonthOfBirth; }
+	void setYearOfBirth(const int& receiveYearOfBirth) { yearOfBirth = receiveYearOfBirth; }
+	void setUsername(const string& receiveUserName) { username = receiveUserName; }
+	void setPassword(const string& receivePassword) { password = receivePassword; }
+
+	string getName() const { return name; }
+	int getDayOfBirth() const { return dayOfBirth; }
+	int getMonthOfBirth() const { return monthOfBirth; }
+	int getYearOfBirth() const { return yearOfBirth; }
+	string getUsername() const { return username; }
+	string getPassword() const { return password; }
+
 
 	void takePersonalityTest() const {
 		personality->setPersonality();
@@ -238,6 +270,9 @@ public:
 
 	void calculateAge(int, int, int);
 	void calculateZodiacSign(int, int);
+	bool createUser(string, string, string, int, int, int);
+	bool verifyUser(string, string);
+
 
 
 };
@@ -310,26 +345,83 @@ void user::calculateZodiacSign(int day, int month) {
 	}
 }
 
+bool user::createUser(string receiveUsername, string receivePassword, string receiveName, int receiveDayOfBirth, int receiveMonthOfBirth, int receiveYearOfBirth) {
+	ofstream fout("users.bin", ios_base::app);
+	if (fout.is_open()) {
+		fout << receiveUsername << endl;
+		fout << receivePassword << endl;
+		fout << receiveName << endl;
+		fout << receiveDayOfBirth << endl;
+		fout << receiveMonthOfBirth << endl;
+		fout << receiveYearOfBirth << endl;
+		fout.close();
+		return true;
+	}
+	return false;
+}
+
+bool user::verifyUser(string username, string password) {
+	ifstream fin("users.bin");
+	string lineStr; int lineInt;
+	while (getline(fin, lineStr)) {
+		if (lineStr == username) {
+			setUsername(username);
+			getline(fin, lineStr);
+			if (lineStr == password) {
+				setPassword(password);
+				getline(fin, lineStr); setName(lineStr);
+				fin >> lineInt; setDayOfBirth(lineInt);
+				fin >> lineInt; setMonthOfBirth(lineInt);
+				fin >> lineInt; setYearOfBirth(lineInt);
+				calculateAge(getDayOfBirth(), getMonthOfBirth(), getYearOfBirth());
+				calculateZodiacSign(getDayOfBirth(), getMonthOfBirth());
+				fin.close();
+				return true;
+			}
+		}
+	}
+	fin.close();
+	return false;
+}
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
+static int userCount = 0;
 int main(void) {
 	system("Color F0");
-	admin aOne("Sunny", "123", "123");
-	user uOne("Sunny", 15, 9, 2003, "12", "su");
-	uOne.takePersonalityTest();
-	uOne.displayUser();
+	admin Admin[3] = { admin("Sunny", "sunny", "4149"), admin("Haris", "haris", "4322"), admin("AbuBakr", "bakr", "4189") };
+	user User;
+
+	cout << "______________________________________________LoginIn or SignUp_______________________________________\n\n1) Login\n2) SignUp" << endl;
+	int userChoice;
+// Exception handling for invalid user choice
+	do {
+		cout << "Enter Choice: ";
+		cin >> userChoice;
+	} while (userChoice < 1 || userChoice > 2);
+
+	if (userChoice == 1) {
+		string tempUsername, tempPassword;
+		cout << "Enter Username: "; cin >> tempUsername;
+		cout << "Enter Password: "; cin >> tempPassword;
+		if (User.verifyUser(tempUsername, tempPassword) == 1) {
+			cout << "Login Successful" << endl;
+			User.displayUser();
+		}
+	}
+	else if (userChoice == 2) {
+		string tempUsername, tempPassword, tempName;
+		int tempDayOfBirth, tempMonthOfBirth, tempYearOfBirth;
+		cout << "Enter Username: "; cin >> tempUsername;
+		cout << "Enter Password: "; cin >> tempPassword;
+		cout << "Enter your Name: "; cin >> tempName;
+		cout << "Enter your Birthday [dd mm yyyy]: "; cin >> tempDayOfBirth >> tempMonthOfBirth >> tempYearOfBirth;
+		User.createUser(tempUsername, tempPassword, tempName, tempDayOfBirth, tempMonthOfBirth, tempYearOfBirth);
+		cout << "User has successfully been created. You may login now....." << endl;
+	}
+	else {
+		cout << "Invalid Choice." << endl;
+	}
+
 	return 0;
 }

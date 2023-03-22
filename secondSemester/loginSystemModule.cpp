@@ -27,7 +27,6 @@ bool createUser(string username, string password) {
         fout.close();
         return true;
     }
-
     return false;
 }
 
@@ -45,7 +44,6 @@ bool verifyUser(string username, string password) {
             }
         }
     }
-
     fin.close();
     return false;
 }
