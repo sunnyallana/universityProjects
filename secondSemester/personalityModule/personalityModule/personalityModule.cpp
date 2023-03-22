@@ -433,7 +433,7 @@ int main(void) {
 			ch = _getch();
 		}
 		cout << endl;
-		cout << "Enter your Name: "; cin >> tempName;
+		cout << "Enter your Name: "; cin.ignore();  getline(cin, tempName);
 		cout << "Enter your Birthday [dd mm yyyy]: "; cin >> tempDayOfBirth >> tempMonthOfBirth >> tempYearOfBirth;
 		User.createUser(tempUsername, tempPassword, tempName, tempDayOfBirth, tempMonthOfBirth, tempYearOfBirth);
 		cout << "User has successfully been created. You may login now....." << endl;
