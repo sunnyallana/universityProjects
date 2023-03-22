@@ -172,6 +172,30 @@ public:
 };
 
 
+class admin {
+private:
+	string name;
+	string adminId;
+	string password;
+	static int countUser;
+public:
+	admin(string receiveName, string receiveAdminId, string receivePassword) {
+		name = receiveName;
+		adminId = receiveAdminId;
+		password = receivePassword;
+	}
+	static int getCountUser() {
+		return countUser;
+	}
+	static int increamentCountUser() {
+		countUser++;
+	}
+};
+int admin::countUser = 0;
+
+
+
+
 class user {
 private:
 	string name;
@@ -194,6 +218,7 @@ public:
 		userId = receiveUserId;
 		password = receivePassword;
 		personality = new personalityQuiz;
+		admin::increamentCountUser();
 	}
 	~user() {
 		delete[] personality;
@@ -292,8 +317,17 @@ void user::calculateZodiacSign(int day, int month) {
 
 
 
+
+
+
+
+
+
+
+
 int main(void) {
 	system("Color F0");
+	admin aOne("Sunny", "123", "123");
 	user uOne("Sunny", 15, 9, 2003, "12", "su");
 	uOne.takePersonalityTest();
 	uOne.displayUser();
