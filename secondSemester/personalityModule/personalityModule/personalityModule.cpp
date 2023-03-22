@@ -48,6 +48,7 @@ public:
 		else {
 			mind = 'E';
 		}
+		mindFile.close();
 	}
 	void setEnergy() {
 		string question;
@@ -72,6 +73,7 @@ public:
 		else {
 			energy = 'T';
 		}
+		energyFile.close();
 	}
 
 	void setNature() {
@@ -97,6 +99,7 @@ public:
 		else {
 			nature = 'F';
 		}
+		natureFile.close();
 	}
 	void setTactics() {
 		string question;
@@ -121,6 +124,7 @@ public:
 		else {
 			tactics = 'J';
 		}
+		tacticsFile.close();
 	}
 
 	void setIdentity() {
@@ -146,6 +150,7 @@ public:
 		else {
 			identity = 'A';
 		}
+		identityFile.close();
 	}
 
 	void setPersonality() {
