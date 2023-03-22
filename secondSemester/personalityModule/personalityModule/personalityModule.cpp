@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string>
 #include <fstream>
+#include <conio.h>
 using namespace std;
 
 class personalityQuiz {
@@ -175,26 +176,25 @@ public:
 class admin {
 private:
 	string name;
-	string adminId;
+	string username;
 	string password;
 	static int countUser;
 public:
 	admin() {
 		name = "";
-		adminId = "";
+		username = "";
 		password = "";
 	}
 	admin(string receiveName, string receiveAdminId, string receivePassword) {
 		name = receiveName;
-		adminId = receiveAdminId;
+	    username = receiveAdminId;
 		password = receivePassword;
 	}
-	static int getCountUser() {
-		return countUser;
-	}
-	static void increamentCountUser() {
-		countUser++;
-	}
+
+	string getUsername() const { return username; }
+	string getPassword() const { return password; }
+	static int getCountUser() {return countUser;}
+	static void increamentCountUser() {countUser++;}
 };
 int admin::countUser = 0;
 
@@ -225,6 +225,7 @@ public:
 		personality = new personalityQuiz;
 		admin::increamentCountUser();
 	}
+// Useless at the moment
 	user(const string receiveName, const int receiveDayOfBirth, const int receiveMonthOfBirth, const int receiveYearOfBirth, const string receiveUsername, const string receivePassword) {
 		name = receiveName;
 		dayOfBirth = receiveDayOfBirth;
@@ -385,11 +386,9 @@ bool user::verifyUser(string username, string password) {
 }
 
 
-
-static int userCount = 0;
 int main(void) {
 	system("Color F0");
-	admin Admin[3] = { admin("Sunny", "sunny", "4149"), admin("Haris", "haris", "4322"), admin("AbuBakr", "bakr", "4189") };
+	admin Admin("Sunny", "sunny", "4149");
 	user User;
 
 	cout << "______________________________________________LoginIn or SignUp_______________________________________\n\n1) Login\n2) SignUp" << endl;
@@ -403,17 +402,37 @@ int main(void) {
 	if (userChoice == 1) {
 		string tempUsername, tempPassword;
 		cout << "Enter Username: "; cin >> tempUsername;
-		cout << "Enter Password: "; cin >> tempPassword;
-		if (User.verifyUser(tempUsername, tempPassword) == 1) {
-			cout << "Login Successful" << endl;
-			User.displayUser();
+		cout << "Enter Password: ";
+		char ch = _getch();
+		while (ch != '\r'){
+			if (ch != '\b'){tempPassword.push_back(ch);cout << "*";}
+			else if (!tempPassword.empty()){tempPassword.pop_back();cout << "\b \b";}
+			ch = _getch();
+		}
+		cout << endl;
+		if (Admin.getUsername() == tempUsername && Admin.getPassword() == tempPassword) {
+			cout << "Admin Session" << endl;
+		}
+		else if (User.verifyUser(tempUsername, tempPassword) == 1) {
+			cout << "User Session" << endl;
+			User.displayUser(); // Just to test execution
+		}
+		else {
+			cout << "Login Failed" << endl;
 		}
 	}
 	else if (userChoice == 2) {
 		string tempUsername, tempPassword, tempName;
 		int tempDayOfBirth, tempMonthOfBirth, tempYearOfBirth;
 		cout << "Enter Username: "; cin >> tempUsername;
-		cout << "Enter Password: "; cin >> tempPassword;
+		cout << "Enter Password: ";
+		char ch = _getch();
+		while (ch != '\r') {
+			if (ch != '\b') { tempPassword.push_back(ch); cout << "*"; }
+			else if (!tempPassword.empty()) { tempPassword.pop_back(); cout << "\b \b"; }
+			ch = _getch();
+		}
+		cout << endl;
 		cout << "Enter your Name: "; cin >> tempName;
 		cout << "Enter your Birthday [dd mm yyyy]: "; cin >> tempDayOfBirth >> tempMonthOfBirth >> tempYearOfBirth;
 		User.createUser(tempUsername, tempPassword, tempName, tempDayOfBirth, tempMonthOfBirth, tempYearOfBirth);
