@@ -3,7 +3,12 @@
 #include <string>
 #include <fstream>
 #include <conio.h>
+#include <windows.h>
 using namespace std;
+
+
+void returnToLoginPage();
+
 
 class personalityQuiz {
 private:
@@ -34,20 +39,12 @@ public:
 			cout << endl << question << endl;
 			cout << endl << "Enter: ";
 			cin >> answer;
+			if (answer >= 1 && answer <= 3) {introvertCount++;}
+			else {extravertCount++;}
+		}
 
-			if (answer >= 1 && answer <= 3) {
-				introvertCount++;
-			}
-			else {
-				extravertCount++;
-			}
-		}
-		if (introvertCount > extravertCount) {
-			mind = 'I';
-		}
-		else {
-			mind = 'E';
-		}
+		if (introvertCount > extravertCount) {mind = 'I';}
+		else {mind = 'E';}
 		mindFile.close();
 	}
 	void setEnergy() {
@@ -266,29 +263,48 @@ public:
 		personality->setPersonality();
 	}
 	
-	void displayUser() const {
-		cout << "Name: " << name << endl;
-		cout << "Birth Day: " << dayOfBirth << "/" << monthOfBirth << "/" << yearOfBirth << endl;
-		cout << "Age: " << age << endl;
-		cout << "Zodiac Sign: " << zodiacSign << endl;
-		cout << "Personality Type: "; personality->displayPersonality(); cout << endl;
-	}
-
 	void calculateAge(int, int, int);
 	void calculateZodiacSign(int, int);
 	bool createUser(string, string, string, int, int, int);
 	bool verifyUser(string, string);
 
 
-
+	friend ostream& operator <<(ostream& ostreamObject, const user& userObject);
+	friend istream& operator >>(istream& istreamObject, user& userObject);
 };
+
+// Operator overloading for personality display
+ostream& operator <<(ostream& ostreamObject, const user& userObject) {
+	ostreamObject << "Name: " << userObject.name << endl;
+	ostreamObject << "Birth Day: " << userObject.dayOfBirth << "/" << userObject.monthOfBirth << "/" << userObject.yearOfBirth << endl;
+	ostreamObject << "Age: " << userObject.age << endl;
+	ostreamObject << "Zodiac Sign: " << userObject.zodiacSign << endl;
+	ostreamObject << "Personality Type: "; userObject.personality->displayPersonality(); ostreamObject << endl;
+	return ostreamObject;
+}
+istream& operator >>(istream& istreamObject, user& userObject) {
+	cout << "Enter Username: "; istreamObject >> userObject.username;
+	cout << "Enter Password: ";
+	char ch = _getch();
+	while (ch != '\r') {
+		if (ch != '\b') { (userObject.password).push_back(ch); cout << "*"; }
+		else if (!(userObject.password).empty()) { (userObject.password).pop_back(); cout << "\b \b"; }
+		ch = _getch();
+	}
+	cout << endl;
+	cout << "Enter your Name: "; cin.ignore();  getline(cin, userObject.name);
+	cout << "Enter your Birthday [dd mm yyyy]: "; istreamObject >> userObject.dayOfBirth >> userObject.monthOfBirth >> userObject.yearOfBirth;
+	userObject.createUser(userObject.username, userObject.password, userObject.name, userObject.dayOfBirth, userObject.monthOfBirth, userObject.yearOfBirth);
+	cout << "User has successfully been created. You may login now....." << endl;
+	return istreamObject;
+}
 
 
 void user::calculateAge(int dayOfBirth, int monthOfBirth, int yearOfBirth) {
 	int ageValue;
 	// Current time
 	time_t now = time(0);
-	// Pointer to structure "tm" consisting of date/time related information. Syntax found from C++ documentaion
+	// Pointer of structure tm consisting of date/time related information. Syntax found from C++ documentaion
 	tm ltm;
 	localtime_s(&ltm, &now);
 	// To find the year of birth that may need revision based on month and day
@@ -300,55 +316,19 @@ void user::calculateAge(int dayOfBirth, int monthOfBirth, int yearOfBirth) {
 	age = ageValue;
 }
 void user::calculateZodiacSign(int day, int month) {
-	// Self reminder to make sure that valid day and month reach here. Exception handling required.....
-	if ((day >= 20 && month == 1) || (day <= 18 && month == 2))
-	{
-		zodiacSign = "Aquarius";
-	}
-	else if ((day >= 19 && month == 2) || (day <= 20 && month == 3))
-	{
-		zodiacSign = "Pisces";
-	}
-	else if ((day >= 21 && month == 3) || (day <= 19 && month == 4))
-	{
-		zodiacSign = "Aries";
-	}
-	else if ((day >= 20 && month == 4) || (day <= 20 && month == 5))
-	{
-		zodiacSign = "Taurus";
-	}
-	else if ((day >= 21 && month == 5) || (day <= 20 && month == 6))
-	{
-		zodiacSign = "Gemini";
-	}
-	else if ((day >= 21 && month == 6) || (day <= 22 && month == 7))
-	{
-		zodiacSign = "Cancer";
-	}
-	else if ((day >= 23 && month == 7) || (day <= 22 && month == 8))
-	{
-		zodiacSign = "Leo";
-	}
-	else if ((day >= 23 && month == 8) || (day <= 22 && month == 9))
-	{
-		zodiacSign = "Virgo";
-	}
-	else if ((day >= 23 && month == 9) || (day <= 22 && month == 10))
-	{
-		zodiacSign = "Libra";
-	}
-	else if ((day >= 23 && month == 10) || (day <= 21 && month == 11))
-	{
-		zodiacSign = "Scorpio";
-	}
-	else if ((day >= 22 && month == 11) || (day <= 21 && month == 12))
-	{
-		zodiacSign = "Sagittarius";
-	}
-	else if ((day >= 22 && month == 12) || (day <= 19 && month == 1))
-	{
-		zodiacSign = "Capricorn";
-	}
+	zodiacSign = (day >= 20 && month == 1) || (day <= 18 && month == 2) ? "Aquarius" :
+		(day >= 19 && month == 2) || (day <= 20 && month == 3) ? "Pisces" :
+		(day >= 21 && month == 3) || (day <= 19 && month == 4) ? "Aries" :
+		(day >= 20 && month == 4) || (day <= 20 && month == 5) ? "Taurus" :
+		(day >= 21 && month == 5) || (day <= 20 && month == 6) ? "Gemini" :
+		(day >= 21 && month == 6) || (day <= 22 && month == 7) ? "Cancer" :
+		(day >= 23 && month == 7) || (day <= 22 && month == 8) ? "Leo" :
+		(day >= 23 && month == 8) || (day <= 22 && month == 9) ? "Virgo" :
+		(day >= 23 && month == 9) || (day <= 22 && month == 10) ? "Libra" :
+		(day >= 23 && month == 10) || (day <= 21 && month == 11) ? "Scorpio" :
+		(day >= 22 && month == 11) || (day <= 21 && month == 12) ? "Sagittarius" :
+		(day >= 22 && month == 12) || (day <= 19 && month == 1) ? "Capricorn" :
+		"Invalid date";
 }
 
 bool user::createUser(string receiveUsername, string receivePassword, string receiveName, int receiveDayOfBirth, int receiveMonthOfBirth, int receiveYearOfBirth) {
@@ -390,7 +370,6 @@ bool user::verifyUser(string username, string password) {
 	return false;
 }
 
-
 int main(void) {
 	system("Color F0");
 	admin Admin("Sunny", "sunny", "4149");
@@ -403,7 +382,6 @@ int main(void) {
 		cout << "Enter Choice: ";
 		cin >> userChoice;
 	} while (userChoice < 1 || userChoice > 2);
-
 	if (userChoice == 1) {
 		string tempUsername, tempPassword;
 		cout << "Enter Username: "; cin >> tempUsername;
@@ -418,34 +396,53 @@ int main(void) {
 		if (Admin.getUsername() == tempUsername && Admin.getPassword() == tempPassword) {
 			cout << "Admin Session" << endl;
 		}
+
+
+
+
+
+
+
 		else if (User.verifyUser(tempUsername, tempPassword) == 1) {
 			cout << "User Session" << endl;
-			User.displayUser(); // Just to test execution
+			cout << User << endl; // Just to test execution
 		}
 		else {
 			cout << "Login Failed" << endl;
+			returnToLoginPage();
 		}
 	}
 	else if (userChoice == 2) {
-		string tempUsername, tempPassword, tempName;
-		int tempDayOfBirth, tempMonthOfBirth, tempYearOfBirth;
-		cout << "Enter Username: "; cin >> tempUsername;
-		cout << "Enter Password: ";
-		char ch = _getch();
-		while (ch != '\r') {
-			if (ch != '\b') { tempPassword.push_back(ch); cout << "*"; }
-			else if (!tempPassword.empty()) { tempPassword.pop_back(); cout << "\b \b"; }
-			ch = _getch();
-		}
-		cout << endl;
-		cout << "Enter your Name: "; cin.ignore();  getline(cin, tempName);
-		cout << "Enter your Birthday [dd mm yyyy]: "; cin >> tempDayOfBirth >> tempMonthOfBirth >> tempYearOfBirth;
-		User.createUser(tempUsername, tempPassword, tempName, tempDayOfBirth, tempMonthOfBirth, tempYearOfBirth);
-		cout << "User has successfully been created. You may login now....." << endl;
+		cin >> User;
+		returnToLoginPage();
 	}
 	else {
 		cout << "Invalid Choice." << endl;
+		returnToLoginPage();
 	}
 
 	return 0;
+}
+
+void returnToLoginPage()  {
+	string returnChoice;
+	cout << "Would you like to return to the Login Page [Yes | No] ?:  ";
+	cin >> returnChoice;
+	// Convert input to lowercase
+	for (int i = 0; i < returnChoice.length(); i++) {
+		returnChoice[i] = tolower(returnChoice[i]);
+	}
+	if (returnChoice == "yes") {
+		cout << "\nRedirecting to the Login Page....." << endl;
+		Sleep(1000);
+		system("cls");
+		// Calling main recursively to return to the login page
+		main();
+	}
+	else if (returnChoice == "no") {
+		cout << "\nStaying on the Same Page" << endl;
+	}
+	else {
+		cout << "\nInvalid Choice" << endl;
+	}
 }
