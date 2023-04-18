@@ -1,2 +1,2 @@
 ﻿  personalityModule.cpp
-  personalityModule.vcxproj -> C:\Users\SunnyAllana\source\repos\projects\secondSemester\personalityModule\x64\Debug\personalityModule.exe
+C:\Users\SunnyAllana\source\repos\projects\secondSemester\personalityModule\personalityModule\personalityModule.cpp : fatal  error C1041: cannot open program database 'C:\Users\SunnyAllana\source\repos\projects\secondSemester\personalityModule\personalityModule\x64\Debug\vc143.idb'; if multiple CL.EXE write to the same .PDB file, please use /FS
