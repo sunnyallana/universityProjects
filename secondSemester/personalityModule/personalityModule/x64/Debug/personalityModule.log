@@ -1,2 +1,3 @@
-﻿  personalityModule.cpp
-C:\Users\SunnyAllana\source\repos\projects\secondSemester\personalityModule\personalityModule\personalityModule.cpp : fatal  error C1041: cannot open program database 'C:\Users\SunnyAllana\source\repos\projects\secondSemester\personalityModule\personalityModule\x64\Debug\vc143.idb'; if multiple CL.EXE write to the same .PDB file, please use /FS
+﻿C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(517,5): warning MSB8028: The intermediate directory (x64\Debug\) contains files shared from another project (personalityModule.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+  finalProject.cpp
+  personalityModule.vcxproj -> C:\Users\SunnyAllana\source\repos\projects\secondSemester\personalityModule\x64\Debug\finalProject.exe
