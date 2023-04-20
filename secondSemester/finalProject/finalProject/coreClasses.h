@@ -275,18 +275,61 @@ ostream& operator <<(ostream& ostreamObject, const user& userObject) {
 	ostreamObject << "Zodiac Sign: " << userObject.zodiacSign << endl;
 	return ostreamObject;
 }
+
 istream& operator >>(istream& istreamObject, user& userObject) {
-	cout << "Enter Username: "; istreamObject >> userObject.username;
-	cout << "Enter Password: ";
-	char ch = _getch();
-	while (ch != '\r') {
-		if (ch != '\b') { (userObject.password).push_back(ch); cout << "*"; }
-		else if (!(userObject.password).empty()) { (userObject.password).pop_back(); cout << "\b \b"; }
-		ch = _getch();
+	cout << "Enter Password (at least 4 characters, must contain at least one uppercase letter, one lowercase letter, one digit, and one special character): ";
+	while (true) {
+		char ch = _getch();
+		if (ch == '\r') {
+			break;
+		}
+		if (ch == '\b') {
+			if (!userObject.password.empty()) {
+				userObject.password.pop_back();
+				cout << "\b \b";
+			}
+		}
+		else {
+			userObject.password.push_back(ch);
+			cout << "*";
+		}
 	}
 	cout << endl;
-	cout << "Enter your Name: "; cin.ignore();  getline(cin, userObject.name);
-	cout << "Enter your Birthday [dd mm yyyy]: "; istreamObject >> userObject.dayOfBirth >> userObject.monthOfBirth >> userObject.yearOfBirth;
+	if (userObject.password.length() < 4) {
+		cout << "Password must be at least 4 characters long. Please try again." << endl;
+		userObject.password.clear();
+		istreamObject >> userObject;
+		return istreamObject;
+	}
+	bool hasUppercase = false;
+	bool hasLowercase = false;
+	bool hasDigit = false;
+	bool hasSpecial = false;
+	for (char c : userObject.password) {
+		if (isupper(c)) {
+			hasUppercase = true;
+		}
+		else if (islower(c)) {
+			hasLowercase = true;
+		}
+		else if (isdigit(c)) {
+			hasDigit = true;
+		}
+		else if (ispunct(c)) {
+			hasSpecial = true;
+		}
+	}
+	if (!hasUppercase || !hasLowercase || !hasDigit || !hasSpecial) {
+		cout << "Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character. Please try again." << endl;
+		userObject.password.clear();
+		istreamObject >> userObject;
+		return istreamObject;
+	}
+	cout << "Enter your Name: ";
+	cin.ignore();
+	getline(cin, userObject.name);
+	cout << "Enter your Birthday [dd mm yyyy]: ";
+	istreamObject >> userObject.dayOfBirth >> userObject.monthOfBirth >> userObject.yearOfBirth;
 	userObject.createUser(userObject.username, userObject.password, userObject.name, userObject.dayOfBirth, userObject.monthOfBirth, userObject.yearOfBirth);
 	cout << "User has successfully been created. You may login now....." << endl;
 	return istreamObject;

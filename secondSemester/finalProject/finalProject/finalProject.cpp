@@ -22,7 +22,6 @@ int main(void) {
 			break;
 		default:
 			cout << "Invalid choice." << endl;
-			returnToLoginPage();
 			break;
 		}
 	}
