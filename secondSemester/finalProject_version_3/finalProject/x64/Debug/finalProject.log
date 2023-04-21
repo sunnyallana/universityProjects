@@ -1,0 +1,4 @@
+﻿  finalProject.cpp
+C:\Users\SunnyAllana\Desktop\finalProject\finalProject\coreClasses.h(350,33): warning C4101: 'e': unreferenced local variable
+C:\Users\SunnyAllana\Desktop\finalProject\finalProject\globalFunctions.h(143,3): warning C4102: 'menuAdmin': unreferenced label
+  finalProject.vcxproj -> C:\Users\SunnyAllana\Desktop\finalProject\x64\Debug\finalProject.exe
