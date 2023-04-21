@@ -11,7 +11,6 @@ using namespace std;
 
 // Necessary Declarations And Prototypes
 static int userCount = 0;
-void returnToLoginPage();
 bool isValidDate(int day, int month, int year);
 inline void writeUserCountToFile();
 
@@ -29,11 +28,11 @@ private:
 	char identity;
 public:
 	personalityQuiz() {
-		mind = NULL;
-		energy = NULL;
-		nature = NULL;
-		tactics = NULL;
-		identity = NULL;
+		mind = '\0';
+		energy = '\0';
+		nature = '\0';
+		tactics = '\0';
+		identity = '\0';
 	}
 	void setMind() {
 		string question;
@@ -44,6 +43,7 @@ public:
 			cout << endl << question << endl;
 			cout << endl << "Enter: ";
 			cin >> answer;
+			cin.ignore();
 			if (answer >= 1 && answer <= 3) { introvertCount++; }
 			else { extravertCount++; }
 		}
@@ -61,7 +61,7 @@ public:
 			cout << endl << question << endl;
 			cout << endl << "Enter: ";
 			cin >> answer;
-
+			cin.ignore();
 			if (answer >= 1 && answer <= 3) {
 				observantCount++;
 			}
@@ -87,7 +87,7 @@ public:
 			cout << endl << question << endl;
 			cout << endl << "Enter: ";
 			cin >> answer;
-
+			cin.ignore();
 			if (answer > 1 && answer <= 3) {
 				thinkingCount++;
 			}
@@ -112,7 +112,7 @@ public:
 			cout << endl << question << endl;
 			cout << endl << "Enter: ";
 			cin >> answer;
-
+			cin.ignore();
 			if (answer >= 1 && answer <= 3) {
 				judgingCount++;
 			}
@@ -138,6 +138,7 @@ public:
 			cout << endl << question << endl;
 			cout << endl << "Enter: ";
 			cin >> answer;
+			cin.ignore();
 
 			if (answer >= 1 && answer <= 3) {
 				turbulentCount++;
@@ -157,19 +158,30 @@ public:
 
 	void setPersonality() {
 		cout << "\t\t\t\t\tUnlock the Secrets of Your Personality\n\t\t\t\t-------------------------------------------------------" << endl;
-		setMind();		system("cls");
+		setMind(); 
+		//cout << "Mind: " << getMind() << endl; Sleep(2000);	system("cls");
 		cout << "\t\t\t\t\tUnlock the Secrets of Your Personality\n\t\t\t\t-------------------------------------------------------" << endl;
-		setEnergy();	system("cls");
+		setEnergy(); 
+		//cout << "Energy: " << getEnergy() << endl; Sleep(2000);	system("cls");
 		cout << "\t\t\t\t\tUnlock the Secrets of Your Personality\n\t\t\t\t-------------------------------------------------------" << endl;
-		setNature();	system("cls");
+		setNature(); 
+		//cout << "Nature: " << getNature() << endl; Sleep(2000);	system("cls");
 		cout << "\t\t\t\t\tUnlock the Secrets of Your Personality\n\t\t\t\t-------------------------------------------------------" << endl;
-		setTactics();	system("cls");
+		setTactics(); 
+		//cout << "Tactics: " << getTactics() << endl; Sleep(2000); system("cls");
 		cout << "\t\t\t\t\tUnlock the Secrets of Your Personality\n\t\t\t\t-------------------------------------------------------" << endl;
-		setIdentity();	system("cls");
+		setIdentity(); 
+		//cout << "Identity: " << getIdentity() << endl; Sleep(2000);	system("cls");
 	}
 
-	void displayPersonality() const {
-		if ((mind != 'I' && mind != 'E') || (energy != 'N' && energy != 'S') || (nature != 'T' && nature != 'F') || (tactics != 'J' && tactics != 'P') || (identity != 'A' && identity != 'T')) {
+	char getMind() const { return mind; }
+	char getEnergy() const { return energy; }
+	char getNature() const { return nature; }
+	char getTactics() const { return tactics; }
+	char getIdentity() const { return identity; }
+
+	void displayPersonality() {
+		if ((mind == '\0') || (energy == '\0') || (nature == '\0') || (tactics == '\0') || (identity == '\0')) {
 			cout << "Not Set" << endl;
 			return;
 		}
@@ -260,7 +272,7 @@ public:
 	void setStatus(const bool& receiveStatus) { status = receiveStatus; }
 	inline bool getStatus() const { return status; }
 
-	void takePersonalityTest() const {
+	void takePersonalityTest() {
 		personality->setPersonality();
 	}
 	void calculateAge(int, int, int);
@@ -338,7 +350,9 @@ istream& operator >>(istream& istreamObject, user& userObject) {
 		istreamObject >> userObject;
 		return istreamObject;
 	}
-
+	cout << "Enter your Name: ";
+	cin.ignore();
+	getline(cin, userObject.name);
 	// Exception handling for birthday input
 	try {
 		cout << "Enter your Birthday [dd mm yyyy]: ";
@@ -358,10 +372,6 @@ istream& operator >>(istream& istreamObject, user& userObject) {
 		istreamObject >> userObject;
 		return istreamObject;
 	}
-
-	cout << "Enter your Name: ";
-	cin.ignore();
-	getline(cin, userObject.name);
 	userObject.createUser(userObject.username, userObject.password, userObject.name, userObject.dayOfBirth, userObject.monthOfBirth, userObject.yearOfBirth, false);
 	cout << "User has successfully been created. You may login now....." << endl;
 	return istreamObject;

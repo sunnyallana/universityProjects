@@ -1,6 +1,7 @@
 #pragma once
 int main(void);
 void adminMenu(admin& adminObject, user* userObject);
+void userMenu(user& userObject);
 void clearScreenInFiveSeconds();
 
 // Function to initialize count of user when the program is executed
@@ -48,8 +49,8 @@ void login(admin& Admin, user* User) {
 					found = true;
 					break;
 				}
-				cout << "User Session" << endl;
-				User[i].displayDetails(); // Just to test execution
+				system("cls");
+				userMenu(User[i]);
 				found = true;
 				break;
 			}
@@ -58,7 +59,6 @@ void login(admin& Admin, user* User) {
 			cout << "Login Failed" << endl;
 		}
 	}
-	returnToLoginPage();
 }
 // Functions that controls the sign up process. Exceptions handled. Check Overloaded Operator ">>'s" definition in coreClasses.h for more reference
 void signUp(user* User) {
@@ -91,7 +91,6 @@ void signUp(user* User) {
 	else {
 		cout << "User limit reached." << endl;
 	}
-	returnToLoginPage();
 }
 
 // Function that calls main recursively
@@ -140,13 +139,13 @@ void populateArray(user* User) {
 void adminMenu(admin& adminObject, user* userObject) {
 	int adminMenuChoice = 0;
 	while (adminMenuChoice != 7) {
-		menuAdmin:
 		try {
 			cout << "______________________________________________ADMIN SESSION_____________________________________" << endl;
 			cout << endl << "Welcome " << adminObject.getName() << endl;
 			cout << "What operation would you like to perform ? " << endl;
 			cout << "1) Display Count Of Users\n2) Display All Users\n3) Display Only Inactive Users\n4) Change Status Of A Specific Account\n5) Change Status Of All Accounts\n6) Edit Or Delete User's Information\n7) Logout\n\nEnter Choice: ";
 			cin >> adminMenuChoice;
+			cin.ignore();
 			// Exception handling for when user enters anything other than an integer as an input for adminMenuChoice
 			if (cin.fail()) {
 				cin.clear();
@@ -193,7 +192,6 @@ void adminMenu(admin& adminObject, user* userObject) {
 				}
 				case 7: {
 					returnToLoginPage();
-					clearScreenInFiveSeconds();
 					break;
 				}
 				default: {
@@ -223,6 +221,82 @@ void adminMenu(admin& adminObject, user* userObject) {
 		}
 	}
 }
+
+
+// Function that controls flow of user operations
+void userMenu(user& userObject) {
+	int userMenuChoice = 0;
+	while (userMenuChoice != 4) {
+		try {
+			cout << "______________________________________________USER SESSION_____________________________________" << endl;
+			cout << endl << "Welcome " << userObject.getName() << endl;
+			cout << "What operation would you like to perform ? " << endl;
+			cout << "1) Display Details\n2) Set Personality\n3) Edit or Delete Account\n4) Logout\n\nEnter Choice: ";
+			cin >> userMenuChoice;
+			cin.ignore();
+
+			// Exception handling for when user enters anything other than an integer as an input for userMenuChoice
+			if (cin.fail()) {
+				cin.clear();
+				while (cin.get() != '\n') {
+					continue;
+				}
+				throw runtime_error("Invalid input. Please enter a number between 1 and 4.");
+			}
+
+			if (userMenuChoice < 1 || userMenuChoice > 4) {
+				throw out_of_range("Invalid choice. Please enter a number between 1 and 4.");
+			}
+
+			switch (userMenuChoice) {
+				case 1: {
+					userObject.displayDetails();
+					clearScreenInFiveSeconds();
+					break;
+				}
+				case 2: {
+					userObject.takePersonalityTest();
+					clearScreenInFiveSeconds();
+					break;
+				}
+				case 3: {
+					/*userObject.editOrDelete();*/
+					clearScreenInFiveSeconds();
+					break;
+				}
+				case 4: {
+					returnToLoginPage();
+					break;
+				}
+				default: {
+					throw runtime_error("Invalid choice. Please enter a number between 1 and 4.");
+				}
+			}
+		}
+		catch (const runtime_error& e) {
+			cerr << e.what() << endl;
+		}
+		catch (const out_of_range& e) {
+			cerr << e.what() << endl;
+		}
+		catch (const exception& e) {
+			cerr << "Error: " << e.what() << endl;
+			cin.clear();
+			while (cin.get() != '\n') {
+				continue;
+			}
+		}
+		catch (...) {
+			cerr << "An unknown error occurred." << endl;
+			cin.clear();
+			while (cin.get() != '\n') {
+				continue;
+			}
+		}
+	}
+}
+
+
 // Function that checks if the user has entered valid date in signup process
 bool isValidDate(int day, int month, int year) {
 	if (day < 1 || day > 31) {

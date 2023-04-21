@@ -7,10 +7,12 @@ void populateArray(user* User);
 void login(admin& Admin, user* User);
 void signUp(user* User);
 
+// Driver code
 int main() {
 	try {
+// Reads user count and details from the files on execution
 		readUserCountFromFile();
-		system("Color F0");
+		//system("Color F0");
 		admin Admin("Sunny", "admin", "123");
 		user* User = new user[100];
 		populateArray(User);
@@ -20,12 +22,13 @@ int main() {
 			int userChoice;
 			cout << "Enter Choice: ";
 			cin >> userChoice;
-
+			cin.ignore();
 			while (cin.fail()) {
 				cin.clear();
 				cin.ignore(); 
 				cout << "Invalid input. Please try again: ";
 				cin >> userChoice;
+				cin.ignore();
 			}
 			switch (userChoice) {
 			case 1:
