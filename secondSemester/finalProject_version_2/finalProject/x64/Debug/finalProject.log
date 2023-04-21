@@ -1,0 +1,3 @@
+﻿  finalProject.cpp
+C:\Users\SunnyAllana\Desktop\finalProject\finalProject\coreClasses.h(349,33): warning C4101: 'e': unreferenced local variable
+  finalProject.vcxproj -> C:\Users\SunnyAllana\Desktop\finalProject\x64\Debug\finalProject.exe
