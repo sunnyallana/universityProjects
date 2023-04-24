@@ -1,0 +1,51 @@
+{
+  "version": "2.1.0",
+  "$schema": "https://schemastore.azurewebsites.net/schemas/json/sarif-2.1.0-rtm.5.json",
+  "runs": [
+    {
+      "results": [],
+      "tool": {
+        "driver": {
+          "name": "PREfast",
+          "fullName": "PREfast Code Analysis",
+          "version": "14.34.31937.0",
+          "informationUri": "https://aka.ms/cpp/ca"
+        }
+      },
+      "invocations": [
+        {
+          "executionSuccessful": true
+        }
+      ],
+      "artifacts": [
+        {
+          "location": {
+            "uri": "file:///c:/users/sunnyallana/desktop/finalproject/finalproject/finalproject.cpp"
+          },
+          "roles": [
+            "analysisTarget"
+          ],
+          "hashes": {
+            "sha-256": "3a6d43e9c4f08f75870313a4aeaea8625d7a9aa936c567daccf21fd1bd39ad83"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/sunnyallana/desktop/finalproject/finalproject/coreclasses.h"
+          },
+          "hashes": {
+            "sha-256": "046ad8d52ba334d3da633a97bd0def4f05827f978ceca4c2b64064948f2b0e6a"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/sunnyallana/desktop/finalproject/finalproject/globalfunctions.h"
+          },
+          "hashes": {
+            "sha-256": "68844fba5704ff980479443591018ad4afbbbe2b358ce08b8dc675d241f6b4c2"
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -340,11 +340,11 @@ public:
 
 	user() {
 		zodiacSign = "";
-		status = true;
+		status = false;
 	}
 
 	user(const string receiveName, const int receiveDayOfBirth, const int receiveMonthOfBirth, const int receiveYearOfBirth, const string receiveUsername, const string receivePassword,
-		const bool receiveStatus)
+		const bool receiveStatus = false)
 		: person(receiveName, receiveDayOfBirth, receiveMonthOfBirth, receiveYearOfBirth, receiveUsername, receivePassword)
 	{
 		calculateAge(receiveDayOfBirth, receiveMonthOfBirth, receiveYearOfBirth);
@@ -455,6 +455,11 @@ istream& operator >>(istream& istreamObject, user& userObject) {
 		istreamObject >> userObject;
 		return istreamObject;
 	}
+	// In case the user chooses to Login right after Signup, it would mean that populateArray is not called to calculate Age And Zodiac Sign. That is why calling those functions here
+	userObject.status = false;
+	userObject.calculateAge(userObject.dayOfBirth, userObject.monthOfBirth, userObject.yearOfBirth);
+	userObject.calculateZodiacSign(userObject.dayOfBirth, userObject.monthOfBirth);
+	// Function that appends attributes of the newly created user to the file
 	userObject.createUser(userObject.username, userObject.password, userObject.name, userObject.dayOfBirth, userObject.monthOfBirth, userObject.yearOfBirth, false);
 	cout << "User has successfully been created. You may login now....." << endl;
 	return istreamObject;
