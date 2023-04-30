@@ -69,6 +69,11 @@ void writeToUserFile(user* User) {
 			outfile << User[i].personality.getNature() << endl;
 			outfile << User[i].personality.getTactics() << endl;
 			outfile << User[i].personality.getIdentity() << endl;
+			outfile << User[i].personality.character.getStrength() << endl;
+			outfile << User[i].personality.character.getAgility() << endl;
+			outfile << User[i].personality.character.getIntelligence() << endl;
+			outfile << User[i].personality.character.getFortitude() << endl;
+			outfile << User[i].personality.character.getCharisma() << endl;
 		}
 		outfile.close();
 		writeUserCountToFile();
@@ -376,6 +381,7 @@ void populateArray(user* User) {
 		return;
 	}
 	char mind = '0', energy = '0', nature = '0', tactics = '0', identity = '0';
+	int strength = 0, agility = 0, intelligence = 0, fortitude = 0, charisma = 0;
 	for (int i = 0; i < userCount; i++) {
 		getline(infile, User[i].username);
 		getline(infile, User[i].password);
@@ -385,9 +391,12 @@ void populateArray(user* User) {
 		infile >> User[i].yearOfBirth;
 		infile >> User[i].status;
 		infile >> mind >> energy >> nature >> tactics >> identity; // read the personality traits as characters
+		infile >> strength >> agility >> intelligence >> fortitude >> charisma;
 		infile.ignore(1, '\n');
 		User[i] = user(User[i].name, User[i].dayOfBirth, User[i].monthOfBirth, User[i].yearOfBirth, User[i].username, User[i].password, User[i].status);
 		User[i].personality = personalityQuiz(mind, energy, nature, tactics, identity);
+		User[i].personality.character.setStrength(strength); User[i].personality.character.setAgility(agility); User[i].personality.character.setIntelligence(intelligence); User[i].personality.character.setFortitude(fortitude); User[i].personality.character.setCharisma(charisma);
+		User[i].personality.character.calculateCharacter();
 	}
 	infile.close();
 }

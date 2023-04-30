@@ -61,73 +61,58 @@ public:
 	void calculateCharacter() {
 		if ((strength > agility) && (strength > intelligence) && (strength > fortitude)) {
 			if (intelligence < agility && intelligence < fortitude) {
-				cout << "Class: Barbarian" << endl;
 				type = "Barbarian";
 			}
 			else if (agility > intelligence && agility > fortitude) {
-				cout << "Class: Swordsman" << endl;
 				type = "Swordsman";
 			}
 			else if (fortitude > agility && fortitude > intelligence) {
-				cout << "Class: Wrestler" << endl;
 				type = "Wrestler";
 			}
 			else if (charisma > 10) {
-				cout << "Class: Knight" << endl;
 				type = "Knight";
 			}
 			else {
-				cout << "Class: Raider" << endl;
 				type = "Raider";
 			}
 		}
 		else if (agility > strength && agility > intelligence && agility > fortitude)
 		{
 			if (intelligence > strength && intelligence > fortitude) {
-				cout << "Class: Speedster" << endl;
 				type = "Speedster";
 			}
 			else if (strength > intelligence && strength > fortitude) {
-				cout << "Class: Street Fighter" << endl;
 				type = "Street Fighter";
 			}
 			else if (fortitude > strength && fortitude > intelligence) {
-				cout << "Class: Horseman" << endl;
 				type = "Horseman";
 			}
 			else if (charisma > 10) {
-				cout << "Class: Bandit" << endl;
 				type = "Bandit";
 			}
 			else {
-				cout << "Class: Goblin" << endl;
 				type = "Goblin";
 			}
 		}
 		else if (intelligence > strength && intelligence > agility && intelligence > fortitude) {
 			if (fortitude > strength && fortitude > agility)
 			{
-				cout << "Class: Builder" << endl;
 				type = "Builder";
 			}
 			else if (strength > fortitude && strength > agility)
 			{
-				cout << "Class: Robo Fighter" << endl;
 				type = "Robo Fighter";
 			}
 			else if (agility > strength && agility > fortitude)
 			{
-				cout << "Class: Android" << endl;
 				type = "Android";
 			}
 			else if (charisma > 10)
 			{
-				cout << "Class: Alchemist" << endl;
 				type = "Alchemist";
 			}
 			else
 			{
-				cout << "Class: Witch" << endl;
 				type = "Witch";
 			}
 		}
@@ -135,27 +120,22 @@ public:
 		{
 			if (strength > intelligence && strength > agility)
 			{
-				cout << "Class: Giant" << endl;
 				type = "Giant";
 			}
 			else if (intelligence > strength && intelligence > agility)
 			{
-				cout << "Class: Cyborg" << endl;
 				type = "Cyborg";
 			}
 			else if (intelligence < strength && intelligence < agility)
 			{
-				cout << "Class: Golem" << endl;
 				type = "Golem";
 			}
 			else if (charisma > 10)
 			{
-				cout << "Class: Vampire" << endl;
 				type = "Vampire";
 			}
 			else
 			{
-				cout << "Class: Mutant" << endl;
 				type = "Mutant";
 			}
 		}
@@ -168,7 +148,6 @@ public:
 		cout << "Charisma: " << charisma << endl;
 	}
 };
-
 
 // Class to assess user's mind, energy, nature, tactics, and identity
 class personalityQuiz {
@@ -882,6 +861,11 @@ bool user::createUser(string receiveUsername = "Not Saved: Error", string receiv
 		fout << personality.getNature() << endl;
 		fout << personality.getTactics() << endl;
 		fout << personality.getIdentity() << endl;
+		fout << personality.character.getStrength() << endl;
+		fout << personality.character.getAgility() << endl;
+		fout << personality.character.getIntelligence() << endl;
+		fout << personality.character.getFortitude() << endl;
+		fout << personality.character.getCharisma() << endl;
 		fout.close();
 		return true;
 	}
