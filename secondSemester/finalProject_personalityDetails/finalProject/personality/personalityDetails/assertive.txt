@@ -1,0 +1,1 @@
+Assertive types tend to be more proactive and take charge of situations.

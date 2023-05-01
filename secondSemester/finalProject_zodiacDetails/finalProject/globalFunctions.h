@@ -95,7 +95,7 @@ void adminMenu(admin& adminObject, user* userObject) {
 			cout << "                                                 Welcome, " << adminObject.getName() << "!" << endl;
 			cout << "                            _______________________________________________________________       " << endl;
 			cout << "                           |                                                               |        " << endl;
-			cout << "                           |          What operation would you like to perform ?           |        " << endl;
+			cout << "                           |          WHAT OPERATION WOULD YOU LIKE TO PERFORM ?           |        " << endl;
 			cout << "                           |_______________________________________________________________|        " << endl;
 			cout << "                                              " << endl;
 			cout << "         1) Display Count Of Users" << endl;
@@ -124,7 +124,10 @@ void adminMenu(admin& adminObject, user* userObject) {
 
 			switch (adminMenuChoice) {
 			case 1: {
-				cout << "Number of users: " << userCount << endl;
+				cout << "                          ___________________________________________________________________" << endl;
+				cout << "                         |                                                                   |" << endl;
+				cout << "                         |                        NUMBER OF USERS: " << userCount << "                         |" << endl;
+				cout << "                         |___________________________________________________________________|\n\n" << endl;
 				clearScreen();
 				break;
 			}
@@ -144,11 +147,21 @@ void adminMenu(admin& adminObject, user* userObject) {
 				break;
 			}
 			case 4: {
+				system("cls");
+				cout << "                      ___________________________________________________________________________" << endl;
+				cout << "                     |                                                                           |" << endl;
+				cout << "                     |                               ADMIN SESSION                               |" << endl;
+				cout << "                     |___________________________________________________________________________|" << endl << endl;
 				adminObject.changeStatusSpecific(userObject);
 				clearScreen();
 				break;
 			}
 			case 5: {
+				system("cls");
+				cout << "                      ___________________________________________________________________________" << endl;
+				cout << "                     |                                                                           |" << endl;
+				cout << "                     |                               ADMIN SESSION                               |" << endl;
+				cout << "                     |___________________________________________________________________________|" << endl << endl;
 				adminObject.changeStatusAll(userObject);
 				clearScreen();
 				break;
@@ -203,9 +216,9 @@ void userMenu(user* userObject, int indexUser) {
 			cout << "                                                    Welcome, " << userObject[indexUser].getName() << "!" << endl;
 			cout << "                              ____________________________________________________________" << endl;
 			cout << "                             |                                                            |" << endl;
-			cout << "                             |          What operation would you like to perform ?        |" << endl;
+			cout << "                             |          WHAT OPERATION WOULD YOU LIKE TO PERFORM ?        |" << endl;
 			cout << "                             |____________________________________________________________|" << endl;
-			cout << "                                            " << endl;
+			cout << endl;
 			cout << "           1) Display Your Details" << endl;
 			cout << "           2) Set Your Personality And Fictional Character" << endl;
 			cout << "           3) Know About Your Zodiac Sign" << endl;
@@ -300,7 +313,10 @@ void signup(user* User) {
 		isUsernameTaken = false;
 		for (int i = 0; i < userCount; i++) {
 			if (User[i].getUsername() == newUsername) {
-				cout << "Username already exists. Please try again." << endl;
+				cout << "              ___________________________________________________________________" << endl;
+				cout << "             |                                                                   |" << endl;
+				cout << "             |      USERNAME ALREADY EXISTS: KINDLY TRY A DIFFERENT USERNAME     |" << endl;
+				cout << "             |___________________________________________________________________|" << endl;
 				isUsernameTaken = true;
 				break;
 			}
@@ -342,10 +358,8 @@ void login(admin& Admin, user* User) {
 	cout << "                              |                         LOGIN                         |" << endl;
 	cout << "                              |_______________________________________________________|" << endl;
 	cout << "\n                   Please enter your credentials:" << endl << endl;;
-	cout << "                     Enter your Username: ";
-	cin >> tempUsername;
+	cout << "                     Enter your Username: "; cin >> tempUsername;
 	cout << "                     Enter your Password: ";
-
 	// To hide the password using asterisks
 	ch = _getch();
 	while (ch != '\r') {
@@ -354,8 +368,6 @@ void login(admin& Admin, user* User) {
 		ch = _getch();
 	}
 	cout << endl;
-
-
 	// Check if admin is logging in
 	if (Admin.getUsername() == tempUsername && Admin.getPassword() == tempPassword) {
 		system("cls");
@@ -365,7 +377,11 @@ void login(admin& Admin, user* User) {
 		for (int i = 0; i < userCount; i++) {
 			if (verifyUser(User, tempUsername, tempPassword)) {
 				if (User[i].getStatus() == false) {
-					cout << "Your account is inactive. Please contact the admin to reactivate your account." << endl;
+					cout << "                        ___________________________________________________________________" << endl;
+					cout << "                       |                                                                   |" << endl;
+					cout << "                       |          ACCOUNT INACTIVE: KINDLY CONTACT ADMINISTRATOR           |" << endl;
+					cout << "                       |___________________________________________________________________|" << endl;
+					cout << endl;
 					clearScreen();
 					return;
 				}
@@ -376,6 +392,11 @@ void login(admin& Admin, user* User) {
 				}
 			}
 		}
+		cout << "                        ___________________________________________________________________" << endl;
+		cout << "                       |                                                                   |" << endl;
+		cout << "                       |                   INCORRECT CREDENTIALS ENTERED                   |" << endl;
+		cout << "                       |___________________________________________________________________|" << endl;
+		clearScreen();
 	}
 }
 // This function is responsible for populating the user array at the execution of the program

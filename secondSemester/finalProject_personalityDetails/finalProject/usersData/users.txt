@@ -1,0 +1,34 @@
+sunny
+Su1@
+Sunny Allana
+15
+9
+2003
+1
+I
+N
+T
+P
+T
+50
+20
+35
+56
+-53
+sheldon
+Sh1@
+Sheldon Cooper
+12
+1
+2003
+1
+I
+S
+F
+P
+A
+40
+38
+1
+7
+4

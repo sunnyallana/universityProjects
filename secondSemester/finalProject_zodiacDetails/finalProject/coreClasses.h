@@ -60,84 +60,32 @@ public:
 
 	void calculateCharacter() {
 		if ((strength > agility) && (strength > intelligence) && (strength > fortitude)) {
-			if (intelligence < agility && intelligence < fortitude) {
-				type = "Barbarian";
-			}
-			else if (agility > intelligence && agility > fortitude) {
-				type = "Swordsman";
-			}
-			else if (fortitude > agility && fortitude > intelligence) {
-				type = "Wrestler";
-			}
-			else if (charisma > 10) {
-				type = "Knight";
-			}
-			else {
-				type = "Raider";
-			}
+			if (intelligence < agility && intelligence < fortitude) {type = "Barbarian";}
+			else if (agility > intelligence && agility > fortitude) {type = "Swordsman";}
+			else if (fortitude > agility && fortitude > intelligence) {type = "Wrestler";}
+			else if (charisma > 10) {type = "Knight";}
+			else {type = "Raider";}
 		}
-		else if (agility > strength && agility > intelligence && agility > fortitude)
-		{
-			if (intelligence > strength && intelligence > fortitude) {
-				type = "Speedster";
-			}
-			else if (strength > intelligence && strength > fortitude) {
-				type = "Street Fighter";
-			}
-			else if (fortitude > strength && fortitude > intelligence) {
-				type = "Horseman";
-			}
-			else if (charisma > 10) {
-				type = "Bandit";
-			}
-			else {
-				type = "Goblin";
-			}
+		else if (agility > strength && agility > intelligence && agility > fortitude){
+			if (intelligence > strength && intelligence > fortitude) {type = "Speedster";}
+			else if (strength > intelligence && strength > fortitude) {type = "Street Fighter";}
+			else if (fortitude > strength && fortitude > intelligence) {type = "Horseman";}
+			else if (charisma > 10) {type = "Bandit";}
+			else {type = "Goblin";}
 		}
 		else if (intelligence > strength && intelligence > agility && intelligence > fortitude) {
-			if (fortitude > strength && fortitude > agility)
-			{
-				type = "Builder";
-			}
-			else if (strength > fortitude && strength > agility)
-			{
-				type = "Robo Fighter";
-			}
-			else if (agility > strength && agility > fortitude)
-			{
-				type = "Android";
-			}
-			else if (charisma > 10)
-			{
-				type = "Alchemist";
-			}
-			else
-			{
-				type = "Witch";
-			}
+			if (fortitude > strength && fortitude > agility){type = "Builder";}
+			else if (strength > fortitude && strength > agility){type = "Robo Fighter";}
+			else if (agility > strength && agility > fortitude){type = "Android";}
+			else if (charisma > 10){type = "Alchemist";}
+			else{type = "Witch";}
 		}
-		else
-		{
-			if (strength > intelligence && strength > agility)
-			{
-				type = "Giant";
-			}
-			else if (intelligence > strength && intelligence > agility)
-			{
-				type = "Cyborg";
-			}
-			else if (intelligence < strength && intelligence < agility)
-			{
-				type = "Golem";
-			}
-			else if (charisma > 10)
-			{
-				type = "Vampire";
-			}
-			else
-			{
-				type = "Mutant";
-			}
+		else{
+			if (strength > intelligence && strength > agility){type = "Giant";}
+			else if (intelligence > strength && intelligence > agility){type = "Cyborg";}
+			else if (intelligence < strength && intelligence < agility){type = "Golem";}
+			else if (charisma > 10){type = "Vampire";}
+			else{type = "Mutant";}
 		}
 	}
 	void displayCharacter() const {
@@ -330,7 +278,7 @@ public:
 					}
 					cin.ignore();
 					if (answer < 1 || answer > 5) {
-						cout << "Invalid input. Please enter character.strength value between 1 and 5." << endl;
+						cout << "Invalid input. Please enter a value between 1 and 5." << endl;
 					}
 				} while (answer < 1 || answer > 5);
 				if (answer >= 1 && answer <= 3) {
@@ -402,7 +350,7 @@ public:
 					}
 					cin.ignore();
 					if (answer < 1 || answer > 5) {
-						cout << "Invalid input. Please enter character.strength value between 1 and 5." << endl;
+						cout << "Invalid input. Please enter a value between 1 and 5." << endl;
 					}
 				} while (answer < 1 || answer > 5);
 				if (answer >= 1 && answer <= 3) {
@@ -589,7 +537,7 @@ public:
 		}
 	}
 	void displayCharacterType() const {
-		cout << "Character: " << character.type;
+		cout << character.type;
 	}
 };
 class person {
@@ -878,13 +826,17 @@ void user::displayZodiacDetails() const {
 	cout << "                         |          INTERESTING INFORMATION ABOUT YOUR ZODIAC SIGN           |" << endl;
 	cout << "                         |___________________________________________________________________|\n\n" << endl;
 	getline(file, lineOne);
-	cout << "                         " << lineOne << endl;
 	getline(file, lineTwo);
-	cout << "                         " << lineTwo << endl;
 	getline(file, lineThree);
-	cout << "                         " << lineThree << endl;
 	getline(file, lineFour);
-	cout << "                         " << lineFour << endl;
+	cout << "\n            _______________________________________________________________________________________________" << endl;
+	cout << endl;
+	cout << "             " << lineOne << endl;
+	cout << "             " << lineTwo << endl;
+	cout << "             " << lineThree << endl;
+	cout << "             " << lineFour << endl;
+	cout << "            _______________________________________________________________________________________________" << endl;
+	file.close();
 }
 
 // Method that appends user's details to the file
@@ -1075,7 +1027,11 @@ void admin::displayInactiveUsers(user* User) {
 // Method to collectively change status of users to either false or true
 void admin::changeStatusAll(user* User) {
 	bool newStatus;
-	cout << "Enter the new status (1 for active, 0 for inactive): ";
+	cout << "                          ___________________________________________________________________" << endl;
+	cout << "                         |                                                                   |" << endl;
+	cout << "                         |          ENTER THE NEW STATUS [ACTIVE(1) |  INACTIVE(0)]          |" << endl;
+	cout << "                         |___________________________________________________________________|\n\n" << endl;
+	cout << "ENTER: ";
 	cin >> newStatus;
 
 	try {
@@ -1101,11 +1057,15 @@ void admin::changeStatusAll(user* User) {
 // Method to change status of a specific user
 void admin::changeStatusSpecific(user* User) {
 	string usernameToChange;
-	cout << "Enter the username of the user you want to change the status of: ";
+	cout << "Enter Username of the concerned User: ";
 	cin >> usernameToChange;
 
 	bool newStatus;
-	cout << "Enter the new status (1 for active, 0 for inactive): ";
+	cout << "                          ___________________________________________________________________" << endl;
+	cout << "                         |                                                                   |" << endl;
+	cout << "                         |          ENTER THE NEW STATUS [ACTIVE(1) |  INACTIVE(0)]          |" << endl;
+	cout << "                         |___________________________________________________________________|\n\n" << endl;
+	cout << "ENTER: ";
 	cin >> newStatus;
 	try {
 		if (cin.fail()) {
