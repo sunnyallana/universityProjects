@@ -1,0 +1,4 @@
+RFID RC-522
+MH-ET Live ESP32 DevKit
+Jumper wires
+Oled Display
