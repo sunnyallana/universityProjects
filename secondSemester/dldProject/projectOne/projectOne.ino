@@ -17,9 +17,9 @@ Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 //************************************************************************
 MFRC522 mfrc522(SS_PIN, RST_PIN); // Create MFRC522 instance.
 
-const char *ssid = "MT-Link";
-const char *password = "sahilsamander";
-const char* device_token  = "74edc3e5bfdf8e8f";
+const char *ssid = "";
+const char *password = "";
+const char* device_token  = "";
 
 int timezone = 5 * 3600;   //Replace "x" your timezone. For Pakistan, it is 5. int timezone = x * 3600;  
 int time_dst = 0;
